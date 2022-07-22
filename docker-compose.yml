@@ -1,0 +1,26 @@
+version: '3'
+
+volumes:
+  mongodb_dbdata:
+
+services:
+  app:
+    build: .
+    container_name: decorator-api
+    restart: always
+    ports: 
+      - 8081:8081
+    volumes: 
+      - .:/usr/app
+    depends_on:
+      - mongodb
+    
+  mongodb:
+    container_name: mongodb_database
+    image: mongo
+    env_file: mongodb.env
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_dbdata:/data/db
